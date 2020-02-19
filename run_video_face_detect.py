@@ -38,7 +38,6 @@ label_path = "./models/voc-model-labels.txt"
 net_type = args.net_type
 
 cap = cv2.VideoCapture(0)  # capture from video
-# cap = cv2.VideoCapture(0)  # capture from camera
 
 class_names = [name.strip() for name in open(label_path).readlines()]
 num_classes = len(class_names)
