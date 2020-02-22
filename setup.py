@@ -26,7 +26,7 @@ setup(
     version='0.0.0',
     packages=[],
     py_modules=[
-        'scripts.face_detection',
+        'script.face_detection',
     ],
     data_files=[('share/ament_index/resource_index/packages', ['resource/face_detection']),
                 ('share/face_detection', ['package.xml']), ('lib/face_detection/vision', ['vision/__init__.py']), (
@@ -72,7 +72,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'face_detection = scripts.face_detection:main'
+            'face_detection = script.face_detection:main'
         ],
     },
 )
