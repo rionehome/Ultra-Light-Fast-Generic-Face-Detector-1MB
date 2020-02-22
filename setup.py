@@ -2,7 +2,7 @@ import os
 
 from setuptools import setup
 
-package_name = 'face_detection'
+package_name = 'face_predictor'
 
 
 def create_install_files(paths: list):
@@ -26,43 +26,48 @@ setup(
     version='0.0.0',
     packages=[],
     py_modules=[
-        'script.face_detection',
+        'face_predictor.script',
     ],
-    data_files=[('share/ament_index/resource_index/packages', ['resource/face_detection']),
-                ('share/face_detection', ['package.xml']), ('lib/face_detection/vision', ['vision/__init__.py']), (
-                    'lib/face_detection/vision/utils',
-                    ['vision/utils/__init__.py', 'vision/utils/misc.py', 'vision/utils/box_utils.py',
-                     'vision/utils/box_utils_numpy.py']), ('lib/face_detection/vision/utils/__pycache__', []), (
-                    'lib/face_detection/vision/transforms',
-                    ['vision/transforms/__init__.py', 'vision/transforms/transforms.py']),
-                ('lib/face_detection/vision/transforms/__pycache__', []), ('lib/face_detection/vision/ssd',
-                                                                           ['vision/ssd/data_preprocessing.py',
-                                                                            'vision/ssd/__init__.py',
-                                                                            'vision/ssd/mb_tiny_fd.py',
-                                                                            'vision/ssd/ssd.py',
-                                                                            'vision/ssd/predictor.py',
-                                                                            'vision/ssd/mb_tiny_RFB_fd.py']),
-                ('lib/face_detection/vision/ssd/__pycache__', []), ('lib/face_detection/vision/ssd/config',
-                                                                    ['vision/ssd/config/__init__.py',
-                                                                     'vision/ssd/config/fd_config.py']),
-                ('lib/face_detection/vision/ssd/config/__pycache__', []), ('lib/face_detection/vision/nn',
-                                                                           ['vision/nn/__init__.py',
-                                                                            'vision/nn/multibox_loss.py',
-                                                                            'vision/nn/mb_tiny_RFB.py',
-                                                                            'vision/nn/mb_tiny.py']),
-                ('lib/face_detection/vision/nn/__pycache__', []), ('lib/face_detection/vision/__pycache__', []), (
-                    'lib/face_detection/vision/datasets',
-                    ['vision/datasets/voc_dataset.py', 'vision/datasets/__init__.py']),
-                ('lib/face_detection/models', ['models/voc-model-labels.txt', 'models/readme']), (
-                    'lib/face_detection/models/pretrained',
-                    ['models/pretrained/version-RFB-320.pth', 'models/pretrained/version-slim-320.pth',
-                     'models/pretrained/version-RFB-640.pth', 'models/pretrained/version-slim-640.pth']), (
-                    'lib/face_detection/models/onnx',
-                    ['models/onnx/version-slim-320.onnx', 'models/onnx/version-RFB-320.onnx',
-                     'models/onnx/version-RFB-320_ncnn_slim.onnx',
-                     'models/onnx/version-RFB-320_without_postprocessing.onnx',
-                     'models/onnx/version-slim-320_without_postprocessing.onnx',
-                     'models/onnx/version-slim-320_ncnn_slim.onnx'])],
+    data_files=[('share/ament_index/resource_index/packages', ['resource/face_predictor']),
+                ('share/face_predictor', ['package.xml']), ('lib/face_predictor/vision', ['vision/__init__.py']),
+                ('lib/face_predictor/vision/utils', ['vision/utils/__init__.py',
+                                                     'vision/utils/misc.py',
+                                                     'vision/utils/box_utils.py',
+                                                     'vision/utils/box_utils_numpy.py']),
+                ('lib/face_predictor/vision/utils/__pycache__', []),
+                ('lib/face_predictor/vision/transforms', ['vision/transforms/__init__.py',
+                                                          'vision/transforms/transforms.py']),
+                ('lib/face_predictor/vision/transforms/__pycache__', []),
+                ('lib/face_predictor/vision/ssd', ['vision/ssd/data_preprocessing.py',
+                                                   'vision/ssd/__init__.py',
+                                                   'vision/ssd/mb_tiny_fd.py',
+                                                   'vision/ssd/ssd.py',
+                                                   'vision/ssd/predictor.py',
+                                                   'vision/ssd/mb_tiny_RFB_fd.py']),
+                ('lib/face_predictor/vision/ssd/__pycache__', []),
+                ('lib/face_predictor/vision/ssd/config', ['vision/ssd/config/__init__.py',
+                                                          'vision/ssd/config/fd_config.py']),
+                ('lib/face_predictor/vision/ssd/config/__pycache__', []),
+                ('lib/face_predictor/vision/nn', ['vision/nn/__init__.py',
+                                                  'vision/nn/multibox_loss.py',
+                                                  'vision/nn/mb_tiny_RFB.py',
+                                                  'vision/nn/mb_tiny.py']),
+                ('lib/face_predictor/vision/nn/__pycache__', []),
+                ('lib/face_predictor/vision/__pycache__', []),
+                ('lib/face_predictor/vision/datasets', ['vision/datasets/voc_dataset.py',
+                                                        'vision/datasets/__init__.py']),
+                ('lib/face_predictor/models', ['models/voc-model-labels.txt', 'models/readme']),
+                ('lib/face_predictor/models/pretrained', ['models/pretrained/version-RFB-320.pth',
+                                                          'models/pretrained/version-slim-320.pth',
+                                                          'models/pretrained/version-RFB-640.pth',
+                                                          'models/pretrained/version-slim-640.pth']),
+                ('lib/face_predictor/models/onnx', ['models/onnx/version-slim-320.onnx',
+                                                    'models/onnx/version-RFB-320.onnx',
+                                                    'models/onnx/version-RFB-320_ncnn_slim.onnx',
+                                                    'models/onnx/version-RFB-320_without_postprocessing.onnx',
+                                                    'models/onnx/version-slim-320_without_postprocessing.onnx',
+                                                    'models/onnx/version-slim-320_ncnn_slim.onnx']
+                 )],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='hirorittsu',
@@ -72,7 +77,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'face_detection = script.face_detection:main'
+            'face_predictor = face_predictor.script:main'
         ],
     },
 )

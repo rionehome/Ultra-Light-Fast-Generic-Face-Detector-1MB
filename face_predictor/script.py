@@ -13,7 +13,7 @@ from vision.ssd.config.fd_config import define_img_size
 from vision.ssd.mb_tiny_fd import create_mb_tiny_fd, create_mb_tiny_fd_predictor
 from vision.ssd.mb_tiny_RFB_fd import create_Mb_Tiny_RFB_fd, create_Mb_Tiny_RFB_fd_predictor
 
-MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../image_face_detection/models/")
+MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../face_predictor/models/")
 
 
 def create_predictor():
