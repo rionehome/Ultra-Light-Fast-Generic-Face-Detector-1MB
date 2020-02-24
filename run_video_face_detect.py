@@ -6,6 +6,9 @@ import sys
 import cv2
 
 from vision.ssd.config.fd_config import define_img_size
+from vision.ssd.mb_tiny_fd import create_mb_tiny_fd, create_mb_tiny_fd_predictor
+from vision.ssd.mb_tiny_RFB_fd import create_Mb_Tiny_RFB_fd, create_Mb_Tiny_RFB_fd_predictor
+from vision.utils.misc import Timer
 
 parser = argparse.ArgumentParser(
     description='detect_video')
@@ -20,25 +23,21 @@ parser.add_argument('--candidate_size', default=1000, type=int,
                     help='nms candidate size')
 parser.add_argument('--path', default="imgs", type=str,
                     help='imgs dir')
-parser.add_argument('--test_device', default="cuda:0", type=str,
+parser.add_argument('--test_device', default="cpu", type=str,
                     help='cuda:0 or cpu')
 parser.add_argument('--video_path', default="/home/linzai/Videos/video/16_1.MP4", type=str,
                     help='path of video')
 args = parser.parse_args()
 
 input_img_size = args.input_size
-define_img_size(input_img_size)  # must put define_img_size() before 'import create_mb_tiny_fd, create_mb_tiny_fd_predictor'
-
-from vision.ssd.mb_tiny_fd import create_mb_tiny_fd, create_mb_tiny_fd_predictor
-from vision.ssd.mb_tiny_RFB_fd import create_Mb_Tiny_RFB_fd, create_Mb_Tiny_RFB_fd_predictor
-from vision.utils.misc import Timer
+define_img_size(
+    input_img_size)  # must put define_img_size() before 'import create_mb_tiny_fd, create_mb_tiny_fd_predictor'
 
 label_path = "./models/voc-model-labels.txt"
 
 net_type = args.net_type
 
-cap = cv2.VideoCapture(args.video_path)  # capture from video
-# cap = cv2.VideoCapture(0)  # capture from camera
+cap = cv2.VideoCapture(0)  # capture from video
 
 class_names = [name.strip() for name in open(label_path).readlines()]
 num_classes = len(class_names)
@@ -63,7 +62,7 @@ else:
 net.load(model_path)
 
 timer = Timer()
-sum = 0
+box_sum = 0
 while True:
     ret, orig_image = cap.read()
     if orig_image is None:
@@ -86,10 +85,10 @@ while True:
         #             (0, 0, 255),
         #             2)  # line type
     orig_image = cv2.resize(orig_image, None, None, fx=0.8, fy=0.8)
-    sum += boxes.size(0)
+    box_sum += boxes.size(0)
     cv2.imshow('annotated', orig_image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 cap.release()
 cv2.destroyAllWindows()
-print("all face num:{}".format(sum))
+print("all face num:{}".format(box_sum))
