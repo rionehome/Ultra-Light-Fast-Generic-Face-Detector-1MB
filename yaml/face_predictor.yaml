@@ -1,6 +1,6 @@
 face_predictor:
   ros__parameters:
-    ImageTopic: /camera/color/image_raw
+    ImageTopic: "/face_predictor/color/image"
     NetType: RFB #The self.network architecture ,optional: RFB (higher precision) or slim (faster)
     InputSize: 640 #define self.network input size,default optional value 128/160/320/480/640/1280
     Threshold: 0.7 #score threshold

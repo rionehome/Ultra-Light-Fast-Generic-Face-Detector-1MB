@@ -4,6 +4,9 @@ import cv2
 import rclpy
 from rclpy.node import Node
 import numpy as np
+from sensor_msgs.msg import Image
+from geometry_msgs.msg import Point
+from rione_msgs.msg import PredictResult
 import yaml
 
 from vision.ssd.config.fd_config import define_img_size
@@ -17,12 +20,10 @@ YAML_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../..
 class FaceDetection(Node):
     def __init__(self):
         super().__init__("FaceDetection")
-
         self.param = yaml.load(open(os.path.join(YAML_DIR, "face_predictor.yaml")))["face_predictor"]["ros__parameters"]
         self.predictor = self.create_predictor(self.param)
-
-        print(yaml.load(open("{}/face_predictor.yaml".format(YAML_DIR))), flush=True)
-        # self.create_subscription(Image, "/camera/color/image_raw", self.callback_image_realsence, 1)
+        self.create_subscription(Image, self.param["ImageTopic"], self.callback_image, 1)
+        self.pub_result = self.create_publisher(PredictResult, "/face_predictor/result", 10)
 
     @staticmethod
     def create_predictor(param):
@@ -48,16 +49,26 @@ class FaceDetection(Node):
         net.load(model_path)
         return predictor
 
-    def callback_image_realsence(self, msg):
+    def callback_image(self, msg: Image):
         image_array = np.asarray(msg.data).reshape((480, 640, 3))
-        # cv2.imshow("window", cv2.cvtColor(image_array, cv2.COLOR_RGB2BGR))
-        # cv2.waitKey(1)
-        boxes, labels, probs = self.predictor.predict(image_array, 1000 / 2, 0.85)
+        boxes, labels, probs = self.predictor.predict(
+            image_array,
+            self.param["CandidateSize"] / 2,
+            self.param["Threshold"]
+        )
+        points1 = []
+        points2 = []
         for i in range(boxes.size(0)):
             box = boxes[i, :]
+            points1.append(Point(x=float(box[0]), y=float(box[1])))
+            points2.append(Point(x=float(box[2]), y=float(box[3])))
             cv2.rectangle(image_array, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 4)
-        cv2.imshow('annotated', cv2.cvtColor(image_array, cv2.COLOR_RGB2BGR))
+        cv2.imshow("color", image_array)
         cv2.waitKey(1)
+        result = PredictResult()
+        result.point1 = points1
+        result.point2 = points2
+        self.pub_result.publish(result)
 
 
 def main():
