@@ -27,6 +27,11 @@ class FaceDetection(Node):
 
     @staticmethod
     def create_predictor(param):
+        """
+        推論器の作成
+        :param param:
+        :return:
+        """
         net = None
         model_path = None
         predictor = None
@@ -50,6 +55,11 @@ class FaceDetection(Node):
         return predictor
 
     def callback_image(self, msg: Image):
+        """
+        画像のsubscribe
+        :param msg:
+        :return:
+        """
         image_array = np.asarray(msg.data).reshape((480, 640, 3))
         boxes, labels, probs = self.predictor.predict(
             image_array,
