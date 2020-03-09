@@ -3,7 +3,7 @@ face_predictor:
     ImageTopic: "/face_predictor/color/image"
     NetType: RFB #The self.network architecture ,optional: RFB (higher precision) or slim (faster)
     InputSize: 640 #define self.network input size,default optional value 128/160/320/480/640/1280
-    Threshold: 0.85 #score threshold
+    Threshold: 0.95 #score threshold
     CandidateSize: 1000 #nms candidate size
     Path: imgs #imgs dir
     TestDevice: cpu #cuda:0 or cpu
