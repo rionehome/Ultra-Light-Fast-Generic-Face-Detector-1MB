@@ -47,7 +47,7 @@ class FaceDetection(Node):
                                                     device=param["TestDevice"])
         elif param["NetType"] == 'RFB':
             model_path = MODEL_PATH + "pretrained/version-RFB-320.pth"
-            #model_path = MODEL_PATH + "pretrained/version-RFB-640.pth"
+            # model_path = MODEL_PATH + "pretrained/version-RFB-640.pth"
             net = create_Mb_Tiny_RFB_fd(len(class_names), is_test=True, device=param["TestDevice"])
             predictor = create_Mb_Tiny_RFB_fd_predictor(net, candidate_size=param["CandidateSize"],
                                                         device=param["TestDevice"])
@@ -73,7 +73,7 @@ class FaceDetection(Node):
             points1.append(Point(x=float(box[0]), y=float(box[1])))
             points2.append(Point(x=float(box[2]), y=float(box[3])))
             cv2.rectangle(image_array, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 4)
-        cv2.imshow("color", image_array)
+        cv2.imshow("color", image_array[:, :, [2, 1, 0]])
         cv2.waitKey(1)
         result = PredictResult()
         result.point1 = points1
